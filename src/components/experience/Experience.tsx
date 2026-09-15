@@ -19,39 +19,42 @@ export function Experience() {
   });
 
   return (
-    <section id="experience" ref={containerRef} className="py-24 md:py-48 bg-background border-t border-border relative">
-      <div className="absolute top-12 left-6 md:left-12 z-10 pointer-events-none">
-        <h2 className="text-sm font-mono text-muted-foreground tracking-widest uppercase">SYS.EXPERIENCE_LOG</h2>
+    <section id="experience" ref={containerRef} className="py-16 md:py-48 bg-background border-t border-border relative">
+      <div className="absolute top-8 md:top-12 left-4 md:left-12 z-10 pointer-events-none">
+        <h2 className="text-[10px] md:text-sm font-mono text-muted-foreground tracking-widest uppercase">SYS.EXPERIENCE_LOG</h2>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-start justify-between gap-24 relative h-full">
+      <div className="container mx-auto px-4 md:px-12 flex flex-col md:flex-row items-start justify-between gap-12 md:gap-24 relative h-full mt-12 md:mt-0">
         
         {/* Sticky Left Content */}
         <div className="w-full md:w-1/3 flex flex-col md:sticky md:top-48 z-10">
-          <h2 className="text-clamp-section font-medium tracking-tight mb-8">
+          <h2 className="text-clamp-section font-medium tracking-tight mb-4 md:mb-6 text-foreground uppercase">
             Experience.
           </h2>
+          <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed max-w-sm">
+            A chronological trace of my professional journey, highlighting the products I've built, the systems I've scaled, and the teams I've collaborated with.
+          </p>
         </div>
 
         {/* Scrollable Right Content */}
-        <div className="w-full md:w-1/2 flex flex-col gap-32 md:gap-48 relative border-l border-border pl-12 md:pl-24">
+        <div className="w-full md:w-1/2 flex flex-col gap-24 md:gap-48 relative border-l border-border pl-6 md:pl-24 ml-2 md:ml-0">
           {portfolioData.experience.map((exp, i) => (
-            <div key={i} className="exp-node flex flex-col gap-8 opacity-50 origin-left">
-              <div className="flex flex-col gap-2 border-b border-border pb-6">
-                <span className="text-sm font-mono text-muted-foreground tracking-widest">{exp.period}</span>
-                <h3 className="text-3xl md:text-5xl font-medium tracking-tight text-foreground">{exp.role}</h3>
-                <span className="text-xl md:text-2xl text-muted-foreground font-light">{exp.company} &middot; {exp.location}</span>
+            <div key={i} className="exp-node flex flex-col gap-6 md:gap-8 opacity-50 origin-left">
+              <div className="flex flex-col gap-2 border-b border-border pb-4 md:pb-6">
+                <span className="text-[10px] md:text-sm font-mono text-muted-foreground tracking-widest">{exp.period}</span>
+                <h3 className="text-clamp-project font-medium tracking-tight text-foreground leading-none uppercase">{exp.role}</h3>
+                <span className="text-base md:text-2xl text-muted-foreground font-light mt-1">{exp.company} &middot; {exp.location}</span>
               </div>
               
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-4 md:gap-6 mt-4">
                 {exp.highlights.map((highlight, idx) => (
-                  <p key={idx} className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
+                  <p key={idx} className="text-base md:text-xl text-foreground/90 font-light leading-relaxed">
                     {highlight}
                   </p>
                 ))}
               </div>
               
-              <div className="flex flex-wrap gap-3 mt-4">
+              <div className="flex flex-wrap gap-2 md:gap-3 mt-2 md:mt-4">
                 {exp.capabilities.map((cap, idx) => (
                   <CapabilityPill 
                     key={idx} 

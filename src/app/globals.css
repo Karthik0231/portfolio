@@ -14,29 +14,33 @@
 
 :root {
   /* Light Mode (Editorial / Architectural / Clean) */
-  --background: #f7f7f5; /* Warm off-white */
-  --foreground: #111111; /* Deep charcoal, almost black */
+  --background: #f7f7f5;
+  /* Warm off-white */
+  --foreground: #111111;
+  /* Deep charcoal, almost black */
   --muted: #e5e5e0;
-  --muted-foreground: #404040;
+  --muted-foreground: #2a2a2a; /* Darker, more legible */
   --border: #dcdccf;
   --accent: #111111;
   --accent-foreground: #f7f7f5;
-  --grid-color: rgba(17, 17, 17, 0.05);
+  --grid-color: rgba(0, 0, 0, 0.05);
 }
 
 .dark {
   /* Dark Mode (Technical / Cinematic / Deep) */
-  --background: #080808; /* Deep cinematic charcoal */
+  --background: #080808;
+  /* Deep cinematic charcoal */
   --foreground: #ededed;
   --muted: #1c1c1c;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
+  --muted-foreground: #cccccc; /* Brighter, more legible */
+  --border: #262626;
   --accent: #ededed;
   --accent-foreground: #080808;
   --grid-color: rgba(255, 255, 255, 0.05);
 }
 
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -67,7 +71,11 @@ body {
 }
 
 @media (pointer: fine) {
-  body, a, button, [data-cursor] {
+
+  body,
+  a,
+  button,
+  [data-cursor] {
     cursor: none !important;
   }
 }
@@ -90,20 +98,20 @@ body {
 
 /* Base utility for large clamp text */
 .text-clamp-hero {
-  font-size: clamp(4.5rem, 8vw, 9rem);
-  line-height: 1;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  line-height: 1.05;
 }
 
 .text-clamp-section {
-  font-size: clamp(3.5rem, 6vw, 7rem);
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
   line-height: 1.1;
 }
 
 .text-clamp-project {
-  font-size: clamp(2.75rem, 5vw, 6rem);
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
   line-height: 1.1;
 }
 
 .text-clamp-body {
-  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-size: clamp(1rem, 1.25vw, 1.125rem);
 }
