@@ -1,187 +1,317 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { portfolioData } from "@/data/portfolio";
-import { useSystemStore } from "@/store/systemStore";
-import heroImage from "@/assets/hero-image.png"
-import Image from "next/image";
+import { 
+  ArrowRight, 
+  Terminal, 
+  Layers, 
+  Database, 
+  Cpu, 
+  CheckCircle2, 
+  MapPin, 
+  Sparkles,
+  ExternalLink,
+  Code2
+} from "lucide-react";
+
+type LayerTab = "INTERFACE" | "API" | "DATA" | "RUNTIME";
 
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const metaRef = useRef<HTMLDivElement>(null);
-
-  const setSystemState = useSystemStore((state) => state.setSystemState);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Entrance Animation
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.fromTo(
-        ".hero-eyebrow",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.2 }
-      )
-        .fromTo(
-          ".hero-headline-line",
-          { opacity: 0, y: 40, rotateX: -20 },
-          { opacity: 1, y: 0, rotateX: 0, duration: 1.2, stagger: 0.15 },
-          "-=0.6"
-        )
-        .fromTo(
-          ".hero-description",
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1 },
-          "-=0.8"
-        )
-        .fromTo(
-          ".hero-meta-item",
-          { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1, duration: 0.8, stagger: 0.1 },
-          "-=0.6"
-        )
-        .fromTo(
-          ".hero-image",
-          { opacity: 0, scale: 0.95, filter: "blur(10px)" },
-          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.5 },
-          "-=1"
-        )
-        .fromTo(
-          ".system-grid",
-          { opacity: 0 },
-          { opacity: 1, duration: 2 },
-          "-=1.5"
-        );
-
-      // Scroll Transition
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        onEnter: () => setSystemState("INTRO", "01", "IDEA"),
-        onEnterBack: () => setSystemState("INTRO", "01", "IDEA"),
-        animation: gsap
-          .timeline()
-          .to(headlineRef.current, { scale: 0.95, y: 50, opacity: 0.2 })
-          .to(".system-grid", { y: -50, opacity: 0 }, 0),
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [setSystemState]);
+  const [activeLayer, setActiveLayer] = useState<LayerTab>("INTERFACE");
 
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen flex items-center pt-16 md:pt-32 pb-8 md:pb-12 overflow-hidden"
-      data-cursor="EXPLORE"
-    >
-      {/* Subtle Background System Grid */}
-      <div className="system-grid absolute inset-0 pointer-events-none z-0" />
+    <section className="relative min-h-[92vh] flex flex-col justify-center pt-28 pb-16 lg:pt-36 lg:pb-24 border-b border-border overflow-hidden">
+      {/* Blueprint Grid Background */}
+      <div className="absolute inset-0 engineering-grid opacity-60 pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-12 relative z-10 flex flex-col justify-center min-h-[60vh] md:min-h-[80vh] pointer-events-none mt-8 md:mt-0">
-        <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 items-center w-full">
-
-          {/* Left Column (Text) */}
-          <div className="max-w-[100vw] md:max-w-none pointer-events-auto">
-            <div className="hero-eyebrow flex items-center gap-4 mb-6 md:mb-12">
-              <span className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground uppercase">
-                {portfolioData.personal.title} &middot; INDIA
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Typographic Editorial Narrative (7 cols) */}
+          <div className="lg:col-span-7 flex flex-col items-start">
+            
+            {/* Eyebrow & Status */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="cobalt-badge">
+                <span className="w-1.5 h-1.5 rounded-full bg-cobalt animate-pulse" />
+                {portfolioData.personal.eyebrow}
               </span>
-              <span className="w-12 h-[1px] bg-border hidden md:block"></span>
-              <span className="text-[10px] font-mono text-muted-foreground tracking-widest hidden md:block">SYS.IDEA_PHASE</span>
+              <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                <span>Based in Udupi &middot; Working in Mangaluru</span>
+              </div>
             </div>
 
-            <h1
-              ref={headlineRef}
-              className="text-clamp-hero font-medium tracking-tight mb-6 md:mb-16 text-foreground"
-              style={{ perspective: "1000px" }}
-            >
-              <div className="overflow-hidden py-1 md:py-2"><div className="hero-headline-line inline-block origin-bottom">I build products</div></div>
-              <div className="overflow-hidden py-1 md:py-2"><div className="hero-headline-line inline-block origin-bottom text-muted-foreground">that move from idea</div></div>
-              <div className="overflow-hidden py-1 md:py-2"><div className="hero-headline-line inline-block origin-bottom opacity-50">to production.</div></div>
+            {/* Primary Headline with Expressive Editorial Hierarchy */}
+            <h1 className="headline-editorial text-4xl sm:text-5xl md:text-6xl xl:text-[4.25rem] text-foreground tracking-tight max-w-3xl mb-6">
+              I TURN <span className="text-cobalt underline decoration-cobalt/30 decoration-4 underline-offset-8">COMPLEX IDEAS</span> INTO WORKING SOFTWARE.
             </h1>
 
-            <div className="hero-description max-w-2xl text-muted-foreground text-clamp-body font-light leading-relaxed mb-8 md:mb-16 pr-4 md:pr-0">
-              <p>
-                Full-stack development across web, Android, APIs and production systems. I don&apos;t just write code. I own products from requirements through deployment.
-              </p>
+            {/* Supporting Statement */}
+            <p className="text-lg sm:text-xl text-muted-foreground font-normal leading-relaxed max-w-2xl mb-8">
+              {portfolioData.personal.statement}
+            </p>
+
+            {/* CTAs & Availability Metadata */}
+            <div className="flex flex-wrap items-center gap-4 mb-10 w-full sm:w-auto">
+              <a
+                href="#work"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-foreground text-background font-mono text-xs uppercase tracking-wider font-semibold rounded hover:bg-foreground/90 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt shadow-sm"
+              >
+                <span>Explore My Work</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+
+              <a
+                href="#contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border bg-elevated hover:border-cobalt/40 text-foreground font-mono text-xs uppercase tracking-wider font-medium rounded transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt shadow-2xs"
+              >
+                <span>Let&apos;s Talk</span>
+              </a>
+
+              <a
+                href={portfolioData.personal.resumeUrl}
+                download="HS_Karthik_Resume_Full_Stack_Developer.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3.5 text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-wider transition-colors"
+              >
+                <span>Download Resume</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
 
-            <div ref={metaRef} className="flex flex-wrap gap-4 md:gap-8 text-xs font-mono text-muted-foreground">
-              <MagneticPill label="Full Stack" index="01" />
-              <MagneticPill label="Mobile" index="02" />
-              <MagneticPill label="Production" index="03" />
+            {/* Micro Metadata Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-border w-full text-xs font-mono text-muted-foreground">
+              <div>
+                <span className="block text-[10px] tracking-widest uppercase text-muted-foreground/80 mb-0.5">Experience</span>
+                <span className="text-foreground font-semibold">2+ Years Hands-on</span>
+              </div>
+              <div>
+                <span className="block text-[10px] tracking-widest uppercase text-muted-foreground/80 mb-0.5">Core Practice</span>
+                <span className="text-foreground font-semibold">React &middot; Node &middot; Mobile</span>
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <span className="block text-[10px] tracking-widest uppercase text-muted-foreground/80 mb-0.5">Current Role</span>
+                <span className="text-foreground font-semibold">DataQueue Systems</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: Custom Architectural Product-Window Abstraction (5 cols) */}
+          <div className="lg:col-span-5 w-full">
+            <div className="border border-border bg-elevated/90 backdrop-blur-xs rounded-lg overflow-hidden shadow-md">
+              
+              {/* Product Window Top Bar */}
+              <div className="px-4 py-3 border-b border-border bg-muted/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <span className="ml-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                    system-topology.svg
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-cobalt font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cobalt" />
+                  <span>ACTIVE ARCHITECTURE</span>
+                </div>
+              </div>
+
+              {/* Interactive Layer Tabs */}
+              <div className="grid grid-cols-4 border-b border-border bg-muted/20 text-center text-[10px] font-mono tracking-wider">
+                {(["INTERFACE", "API", "DATA", "RUNTIME"] as LayerTab[]).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveLayer(tab)}
+                    className={`py-2 px-1 transition-colors border-r last:border-r-0 border-border ${
+                      activeLayer === tab
+                        ? "bg-elevated font-semibold text-cobalt border-b-2 border-b-cobalt"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
+              {/* Layer Display Body */}
+              <div className="p-5 sm:p-6 min-h-[300px] flex flex-col justify-between">
+                {activeLayer === "INTERFACE" && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Layers className="w-4 h-4 text-cobalt" />
+                        <span className="font-mono text-xs uppercase tracking-wider font-semibold text-foreground">
+                          UI Component Hierarchy
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-muted-foreground">Next.js / React 19 / RN</span>
+                    </div>
+
+                    <div className="p-3 bg-muted/30 border border-border rounded font-mono text-xs space-y-2">
+                      <div className="flex items-center justify-between text-muted-foreground text-[11px]">
+                        <span>Client State Tree</span>
+                        <span className="text-cobalt">Normalized</span>
+                      </div>
+                      <div className="space-y-1.5 text-[11px]">
+                        <div className="pl-2 border-l-2 border-cobalt text-foreground font-medium">
+                          &lt;BookingEngine state=&quot;validated&quot;&gt;
+                        </div>
+                        <div className="pl-6 border-l-2 border-border text-muted-foreground">
+                          &lt;VirtualizedCatalog items=&#123;420&#125; /&gt;
+                        </div>
+                        <div className="pl-6 border-l-2 border-border text-muted-foreground">
+                          &lt;AuditLogViewer rbac=&quot;admin&quot; /&gt;
+                        </div>
+                        <div className="pl-2 border-l-2 border-cobalt text-foreground font-medium">
+                          &lt;/BookingEngine&gt;
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">60 FPS Native</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">FlatList Windowing</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">WCAG Accessible</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeLayer === "API" && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Code2 className="w-4 h-4 text-cobalt" />
+                        <span className="font-mono text-xs uppercase tracking-wider font-semibold text-foreground">
+                          RESTful API Gateway
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-muted-foreground">Node / Express / Go</span>
+                    </div>
+
+                    <div className="p-3 bg-muted/30 border border-border rounded font-mono text-xs space-y-2">
+                      <div className="flex items-center justify-between text-muted-foreground text-[11px]">
+                        <span>Middleware Pipeline</span>
+                        <span className="text-green-500 font-semibold">200 OK &middot; 42ms</span>
+                      </div>
+                      <div className="space-y-1.5 text-[11px]">
+                        <div className="flex items-center gap-2 text-foreground">
+                          <span className="px-1.5 py-0.2 bg-cobalt/10 text-cobalt text-[10px] font-bold rounded">POST</span>
+                          <span>/api/v1/billing/invoice/generate</span>
+                        </div>
+                        <div className="text-muted-foreground pl-3 text-[10px]">
+                          &rarr; VerifyBearerJWT(req) &middot; Role: &quot;FinanceAdmin&quot;
+                        </div>
+                        <div className="text-muted-foreground pl-3 text-[10px]">
+                          &rarr; ValidatePayload(GSTSchema) &middot; Sanitized
+                        </div>
+                        <div className="text-muted-foreground pl-3 text-[10px]">
+                          &rarr; DispatchAuditEntry(&quot;INVOICE_CREATE&quot;)
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Swagger Specs</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Bearer JWT</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Rate-Limited</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeLayer === "DATA" && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Database className="w-4 h-4 text-cobalt" />
+                        <span className="font-mono text-xs uppercase tracking-wider font-semibold text-foreground">
+                          Persistence & Indexing
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-muted-foreground">PostgreSQL &middot; MongoDB</span>
+                    </div>
+
+                    <div className="p-3 bg-muted/30 border border-border rounded font-mono text-xs space-y-2">
+                      <div className="flex items-center justify-between text-muted-foreground text-[11px]">
+                        <span>Schema Governance</span>
+                        <span className="text-cobalt">ACID Compliant</span>
+                      </div>
+                      <div className="space-y-1 text-[11px] text-muted-foreground">
+                        <p className="text-foreground">
+                          <span className="text-cobalt">INDEX:</span> idx_org_batch_status (compound)
+                        </p>
+                        <p>&bull; Transactions for GST receipt generation</p>
+                        <p>&bull; Immutable append-only audit trail collection</p>
+                        <p>&bull; Sub-10ms paginated query response time</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">PostgreSQL</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">MongoDB Aggregations</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Relational Integrity</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeLayer === "RUNTIME" && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Cpu className="w-4 h-4 text-cobalt" />
+                        <span className="font-mono text-xs uppercase tracking-wider font-semibold text-foreground">
+                          Production Runtime
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-muted-foreground">Vercel &middot; Docker &middot; AWS</span>
+                    </div>
+
+                    <div className="p-3 bg-muted/30 border border-border rounded font-mono text-xs space-y-2">
+                      <div className="flex items-center justify-between text-muted-foreground text-[11px]">
+                        <span>Telemetry & Health</span>
+                        <span className="text-green-500 font-semibold">Healthy (99.9%)</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-[11px]">
+                        <div className="p-2 bg-background border border-border rounded">
+                          <span className="text-[10px] text-muted-foreground block">TTFB Avg</span>
+                          <span className="text-foreground font-bold">148ms</span>
+                        </div>
+                        <div className="p-2 bg-background border border-border rounded">
+                          <span className="text-[10px] text-muted-foreground block">Lighthouse</span>
+                          <span className="text-foreground font-bold">98 / 100</span>
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground">
+                        Edge SSR &middot; Automated Git Deploys &middot; Error Logging
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Vercel Edge</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Docker Containers</span>
+                      <span className="px-2 py-0.5 bg-muted text-[10px] font-mono text-muted-foreground rounded">Zero-Downtime</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Footer Note */}
+                <div className="pt-4 border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cobalt" />
+                    <span>Tested across real client products</span>
+                  </span>
+                  <span className="text-foreground font-medium">HS Karthik</span>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* Right Column (Image) */}
-          <div className="flex justify-center md:justify-end items-center pointer-events-none hero-image mt-8 md:mt-0">
-            <div className="relative w-full max-w-[280px] md:max-w-lg aspect-square">
-              {/* Decorative corner accents */}
-              <div className="absolute -top-4 -left-4 w-6 h-6 md:w-8 md:h-8 border-t border-l border-border/40"></div>
-              <div className="absolute -bottom-4 -right-4 w-6 h-6 md:w-8 md:h-8 border-b border-r border-border/40"></div>
-
-              <Image
-                src={heroImage}
-                alt="System Architecture"
-                className="w-full h-full object-cover rounded-sm mix-blend-screen opacity-70 md:opacity-90 filter grayscale contrast-125 dark:filter-none dark:opacity-100"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-import { useMagneticHover } from "@/hooks/useMagneticHover";
-import { motion } from "framer-motion";
-
-function MagneticNode({ x, y, label, delay }: { x: string, y: string, label: string, delay: number }) {
-  const { ref, position, handleMouseMove, handleMouseLeave } = useMagneticHover(15);
-
-  return (
-    <motion.div
-      className="absolute flex items-center justify-center pointer-events-auto"
-      style={{ left: x, top: y }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 1 }}
-    >
-      <motion.div
-        ref={ref}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        animate={{ x: position.x, y: position.y }}
-        transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-        className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-widest px-4 py-2 border border-border/50 rounded-full hover:border-foreground/30 hover:text-foreground transition-colors cursor-default backdrop-blur-sm bg-background/50"
-      >
-        <span className="w-1.5 h-1.5 rounded-full bg-foreground/30"></span>
-        {label}
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function MagneticPill({ label, index }: { label: string, index: string }) {
-  const { ref, position, handleMouseMove, handleMouseLeave } = useMagneticHover(5);
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="hero-meta-item flex flex-col gap-2 group cursor-default"
-    >
-      <span className="text-muted/30 group-hover:text-foreground transition-colors">{index}</span>
-      <span className="uppercase tracking-widest text-foreground">{label}</span>
-    </motion.div>
   );
 }

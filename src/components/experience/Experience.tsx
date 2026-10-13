@@ -1,118 +1,117 @@
 "use client";
-import { useRef, useCallback } from "react";
+
 import { portfolioData } from "@/data/portfolio";
-import { useSystemStore } from "@/store/systemStore";
-import { useScrollFocus } from "@/hooks/useScrollFocus";
+import { Briefcase, Calendar, MapPin, CheckCircle2, Award, Users } from "lucide-react";
 
 export function Experience() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const setSystemState = useSystemStore((state) => state.setSystemState);
-  
-  const handleActive = useCallback((index: number) => {
-    setSystemState("EXPERIENCE", "04", `EXP / ${portfolioData.experience[index].company}`);
-  }, [setSystemState]);
-
-  useScrollFocus({
-    triggerElement: containerRef,
-    itemSelector: ".exp-node",
-    onActive: handleActive,
-  });
+  const { experience } = portfolioData;
 
   return (
-    <section id="experience" ref={containerRef} className="py-16 md:py-48 bg-background border-t border-border relative">
-      <div className="absolute top-8 md:top-12 left-4 md:left-12 z-10 pointer-events-none">
-        <h2 className="text-[10px] md:text-sm font-mono text-muted-foreground tracking-widest uppercase">SYS.EXPERIENCE_LOG</h2>
-      </div>
-
-      <div className="container mx-auto px-4 md:px-12 flex flex-col md:flex-row items-start justify-between gap-12 md:gap-24 relative h-full mt-12 md:mt-0">
+    <section id="experience" className="py-20 lg:py-32 bg-background border-b border-border relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         
-        {/* Sticky Left Content */}
-        <div className="w-full md:w-1/3 flex flex-col md:sticky md:top-48 z-10">
-          <h2 className="text-clamp-section font-medium tracking-tight mb-4 md:mb-6 text-foreground uppercase">
-            Experience.
+        {/* Section Header */}
+        <div className="max-w-3xl mb-12 lg:mb-16">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-cobalt font-semibold">
+              06 &middot; PROFESSIONAL TIMELINE
+            </span>
+          </div>
+          <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl text-foreground mb-4">
+            Hands-on Production Experience
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg font-light leading-relaxed max-w-sm">
-            A chronological trace of my professional journey, highlighting the products I've built, the systems I've scaled, and the teams I've collaborated with.
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Over 2 years of practical software engineering experience spanning full-time client delivery, API design, security implementations, workshops, and mentoring.
           </p>
         </div>
 
-        {/* Scrollable Right Content */}
-        <div className="w-full md:w-1/2 flex flex-col gap-24 md:gap-48 relative border-l border-border pl-6 md:pl-24 ml-2 md:ml-0">
-          {portfolioData.experience.map((exp, i) => (
-            <div key={i} className="exp-node flex flex-col gap-6 md:gap-8 opacity-50 origin-left">
-              <div className="flex flex-col gap-2 border-b border-border pb-4 md:pb-6">
-                <span className="text-[10px] md:text-sm font-mono text-muted-foreground tracking-widest">{exp.period}</span>
-                <h3 className="text-clamp-project font-medium tracking-tight text-foreground leading-none uppercase">{exp.role}</h3>
-                <span className="text-base md:text-2xl text-muted-foreground font-light mt-1">{exp.company} &middot; {exp.location}</span>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-4 md:gap-6 mt-4">
-                {exp.highlights.map((highlight, idx) => (
-                  <p key={idx} className="text-base md:text-xl text-foreground/90 font-light leading-relaxed">
-                    {highlight}
-                  </p>
-                ))}
-              </div>
-              
-              <div className="flex flex-wrap gap-2 md:gap-3 mt-2 md:mt-4">
-                {exp.capabilities.map((cap, idx) => (
-                  <CapabilityPill 
-                    key={idx} 
-                    cap={cap} 
-                    details={(exp as any).capabilityDetails?.[cap]} 
-                  />
-                ))}
+        {/* Editorial Timeline */}
+        <div className="space-y-12 lg:space-y-16 relative before:absolute before:inset-0 before:left-4 sm:before:left-6 lg:before:left-8 before:w-px before:bg-border before:hidden sm:before:block">
+          {experience.map((exp, index) => (
+            <div
+              key={index}
+              className="relative sm:pl-16 lg:pl-20 flex flex-col items-start group"
+            >
+              {/* Timeline Marker Dot */}
+              <div className="hidden sm:flex absolute left-4 sm:left-6 lg:left-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-background bg-cobalt items-center justify-center top-6 group-hover:scale-125 transition-transform" />
+
+              {/* Experience Card */}
+              <div className="w-full p-6 sm:p-8 lg:p-10 border border-border bg-elevated/70 rounded-xl transition-all duration-300 hover:border-cobalt/40 shadow-xs">
+                
+                {/* Header: Role, Period, Location */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-6 border-b border-border">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                      <span className="px-2.5 py-0.5 bg-cobalt/10 text-cobalt text-xs font-mono font-semibold rounded">
+                        {exp.badge}
+                      </span>
+                      <span className="text-xs font-mono text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {exp.location}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display font-bold text-2xl sm:text-3xl text-foreground">
+                      {exp.role}
+                    </h3>
+                    <div className="text-base font-semibold text-cobalt mt-1">
+                      {exp.company}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/60 border border-border rounded font-mono text-xs text-foreground shrink-0 w-fit">
+                    <Calendar className="w-3.5 h-3.5 text-cobalt" />
+                    <span>{exp.period}</span>
+                  </div>
+                </div>
+
+                {/* Role Summary */}
+                <p className="text-base text-foreground/90 leading-relaxed mb-6">
+                  {exp.description}
+                </p>
+
+                {/* Key Responsibilities & Contributions */}
+                <div className="space-y-3 mb-8">
+                  <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground font-semibold block">
+                    Key Engineering Contributions:
+                  </span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {exp.responsibilities.map((resp, rIdx) => (
+                      <div key={rIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/90">
+                        <CheckCircle2 className="w-4 h-4 text-cobalt shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{resp}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Applied Technologies */}
+                <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {exp.technologies.map((tech, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="px-2.5 py-1 bg-muted/40 border border-border/80 text-foreground font-mono text-[11px] rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {exp.company.includes("DataQueue") && (
+                    <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                      <Users className="w-4 h-4 text-cobalt" />
+                      <span>Workshop Instructor &amp; Mentor</span>
+                    </div>
+                  )}
+                </div>
+
               </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
-  );
-}
-
-import { useState } from "react";
-import { useInteractionStore } from "@/store/interactionStore";
-import { motion, AnimatePresence } from "framer-motion";
-
-function CapabilityPill({ cap, details }: { cap: string, details?: string[] }) {
-  const { setCursor } = useInteractionStore();
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="relative group/cap">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        onMouseEnter={() => setCursor("INSPECT")}
-        onMouseLeave={() => setCursor("DEFAULT")}
-        data-cursor="INSPECT"
-        className="px-4 py-2 border border-border text-xs font-mono text-foreground uppercase tracking-widest bg-muted/20 hover:bg-muted transition-colors cursor-none outline-none focus:ring-1 focus:ring-foreground"
-      >
-        {cap}
-      </button>
-      
-      <AnimatePresence>
-        {isOpen && details && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="absolute left-0 top-full mt-2 z-50 w-64 bg-background border border-border p-4 shadow-xl"
-          >
-            <div className="text-[10px] font-mono text-muted-foreground uppercase mb-2 border-b border-border pb-1">
-              SYS.INSPECT // {cap}
-            </div>
-            <ul className="flex flex-col gap-2 mt-2">
-              {details.map((detail, idx) => (
-                <li key={idx} className="text-sm text-foreground/80 font-light flex items-start gap-2">
-                  <span className="text-muted-foreground mt-1">&middot;</span>
-                  {detail}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }
