@@ -539,6 +539,48 @@ export const portfolioData = {
     ],
   },
 
+  workflow: [
+    {
+      id: "01",
+      title: "UNDERSTAND",
+      description: "Requirements, stakeholders, users.",
+    },
+    {
+      id: "02",
+      title: "ARCHITECT",
+      description: "Data flow, APIs, frontend, backend.",
+    },
+    {
+      id: "03",
+      title: "BUILD",
+      description: "Production-quality implementation.",
+    },
+    {
+      id: "04",
+      title: "VALIDATE",
+      description: "Testing, QA, edge cases.",
+    },
+    {
+      id: "05",
+      title: "SHIP",
+      description: "Deployment and production monitoring.",
+    },
+    {
+      id: "06",
+      title: "ITERATE",
+      description: "Feedback, bugs, performance and UX.",
+    },
+  ],
+
+  stack: {
+    languages: ["TypeScript", "JavaScript (ES6+)", "SQL", "PHP", "GoLang"],
+    frontend: ["React.js", "Next.js", "React Native", "HTML5", "CSS3", "Astro.js"],
+    backend: ["Node.js", "Express.js", "GoLang", "PHP"],
+    databases: ["PostgreSQL", "MySQL", "MongoDB", "Firebase", "Supabase", "SQL Server"],
+    ai: ["OpenAI API", "Gemini API", "Claude API"],
+    cloudAndTools: ["Vercel", "AWS", "Git", "Postman", "Swagger", "Power BI", "Docker"],
+  } as Record<string, string[]>,
+
   contact: {
     headline: "HAVE A REAL PRODUCT TO BUILD?",
     subheadline:

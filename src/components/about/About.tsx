@@ -45,18 +45,16 @@ export function About() {
           
           <div className="about-node opacity-50 origin-left flex flex-col gap-12">
             <h3 className="text-sm font-mono text-muted-foreground tracking-widest uppercase border-b border-border pb-4">Education</h3>
-            {portfolioData.education.map((edu, i) => (
-              <div key={i} className="flex flex-col gap-2">
-                <h4 className="text-xl md:text-2xl text-foreground font-medium">{edu.degree}</h4>
-                <div className="text-muted-foreground font-light flex flex-wrap gap-x-4">
-                  <span>{edu.grade}</span>
-                  <span>&middot;</span>
-                  <span>{edu.location}</span>
-                  <span>&middot;</span>
-                  <span>{edu.period}</span>
-                </div>
+            <div className="flex flex-col gap-2">
+              <h4 className="text-xl md:text-2xl text-foreground font-medium">{portfolioData.education.degree}</h4>
+              <div className="text-muted-foreground font-light flex flex-wrap gap-x-4">
+                <span>{portfolioData.education.grade}</span>
+                <span>&middot;</span>
+                <span>{portfolioData.education.location}</span>
+                <span>&middot;</span>
+                <span>{portfolioData.education.period}</span>
               </div>
-            ))}
+            </div>
           </div>
           
         </div>
